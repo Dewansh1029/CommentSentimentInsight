@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: black;
+        background-size: cover;
+        font-family: sans-serif;
+        background-attachment: fixed;
+        margin-top: 40px;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+
+    .card {
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
+        border-radius: 2.25rem;
+        transition: 0.5s ease;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: scale(1.1);
+        box-shadow: rgba(0, 0, 0, 0.6);
+    }
+
+    .positive-card {
+        background-color: palegreen;
+    }
+
+    .neutral-card {
+        background-color: lightgray;
+    }
+
+    .negative-card {
+        background-color: indianred;
+    }
+
+    .analysis-card {
+        background-color: lightblue;
+        text-align: center;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Review Sentiments</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/wc" target="_blank">Wordcloud</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div>
+        <h1 style="text-align: center;padding-top: 15px;padding-bottom: 15px;color:whitesmoke;font-size:44px;">
+            Youtube Video Comments Sentiment Analyzer
+        </h1>
+    </div>
+
+    <div style="text-align: center;width: 77%;margin: 0 auto;">
+        <h2 style='background-color: antiquewhite;font-size: 29px;border-radius: 1.25rem;padding: 10px;'>
+            <b>Following are the top {{ n }} comments on the Video...</b>
+        </h2>
+    </div>
+
+    <div class='row'>
+        <div class='col-md-4' style='text-align: center;width: 57%;margin: 0 auto;border-radius: 2.25rem;margin-top: 30px;'>
+            <p style='padding-top: 5px;padding-bottom: 5px;border-radius: 1.25rem;width: 70%;background-color: palegreen;font-weight: bold;margin: 0 auto;'>
+                POSITIVE REVIEWS {{np}}/{{n}}
+            </p>
+        </div>
+        <div class='col-md-4' style='text-align: center;width: 57%;margin: 0 auto;border-radius: 2.25rem;margin-top: 30px;'>
+            <p style="padding-top: 5px;padding-bottom: 5px;width: 70%;background-color: lightgray;font-weight: bold;margin: 0 auto;border-radius: 1.25rem;">
+                NEUTRAL REVIEWS  {{nne}}/{{n}}
+            </p>
+        </div>
+        <div class='col-md-4' style='text-align: center;width: 57%;margin: 0 auto;border-radius: 2.25rem;margin-top: 30px;'>
+            <p style="padding-top: 5px;padding-bottom: 5px;width: 70%;background-color: indianred;font-weight: bold;margin: 0 auto;border-radius: 1.25rem;">
+                NEGATIVE REVIEWS  {{nn}}/{{n}}
+            </p>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-md-12 analysis-card' style='margin: 0 auto;width: 77%;padding: 15px;border-radius: 2.25rem;margin-top: 30px;'>
+            <h2>Analysis Section</h2>
+            <p>Positive Reviews Percentage: {{ "{:.2f}".format((np/n) * 100) }}%</p>
+            <p>Neutral Reviews Percentage: {{ "{:.2f}".format((nne/n) * 100) }}%</p>
+            <p>Negative Reviews Percentage: {{ "{:.2f}".format((nn/n) * 100) }}%</p>
+        </div>
+    </div>
+
+    <div style="width: 77%;margin: 0 auto;padding: 30px;border-radius: 2.25rem;">
+        {% for i in range(n) %}
+            <div class="card {{ 'positive-card' if dic[i]['sent'] == 'POSITIVE' else 'neutral-card' if dic[i]['sent'] == 'NEUTRAL' else 'negative-card' }} mt-3">
+                <div class="card-body">
+                    <p class="card-text">{{ dic[i]['org_comment'] }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>
